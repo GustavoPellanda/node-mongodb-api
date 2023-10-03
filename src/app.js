@@ -1,60 +1,24 @@
 import express from "express";
+import connectsToDatabase from "./config/dbConnect.js";
+import burger from "../models/Burger.js";
+
+const dbConnection = await connectsToDatabase();
+dbConnection.once("open", () => {
+    console.log("Connection to MongoDB successful.");
+});
+dbConnection.on("error", (e) => {
+    console.log("Error connecting to MongoDB.", e);
+});
 
 const app = express();
 app.use(express.json());
-
-const cheeseburgers = [
-    {
-        id: 1,
-        burger: "Bacon Cheeseburger"
-    },
-    {
-        id: 2,
-        burger: "Spicy Cheeseburger"
-    },
-    {
-        id: 3,
-        burger: "Mushroom Swiss Cheeseburger"
-    },
-    {
-        id: 4,
-        burger: "Jalapeño Popper Cheeseburger"
-    },
-    {
-        id: 5,
-        burger: "Avocado Bacon Cheeseburger"
-    },
-    {
-        id: 6,
-        burger: "BBQ Ranch Cheeseburger"
-    },
-    {
-        id: 7,
-        burger: "Teriyaki Pineapple Cheeseburger"
-    },
-    {
-        id: 8,
-        burger: "Buffalo Blue Cheeseburger"
-    },
-    {
-        id: 9,
-        burger: "Guacamole Fiesta Cheeseburger"
-    },
-    {
-        id: 10,
-        burger: "Southwest Chipotle Cheeseburger"
-    }
-];
-
-function searchburger(id) {
-    return cheeseburgers.findIndex(burger => burger.id === Number(id));
-}
 
 app.get("/", (req, res) => {
     res.status(200).send("Hello!");
 });
 
-app.get("/cheeseburgers", (req, res) => {
+app.get("/cheeseburgers", async (req, res) => {
+    const cheeseburgers = await burger.find({});
     res.status(200).json(cheeseburgers);
 });
 
