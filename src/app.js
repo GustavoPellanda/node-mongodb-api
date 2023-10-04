@@ -17,11 +17,6 @@ app.get("/", (req, res) => {
     res.status(200).send("Hello!");
 });
 
-app.get("/cheeseburgers", async (req, res) => {
-    const cheeseburgers = await burger.find({});
-    res.status(200).json(cheeseburgers);
-});
-
 app.get("/cheeseburgers/:id", (req, res) => {
     const index = searchburger(req.params.id);
     if (index !== -1) {
