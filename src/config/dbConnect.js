@@ -1,7 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-async function connectsToDatabase(){
-    mongoose.connect(""); // Insert connection string (create a .env file maybe)
-};
+dotenv.config();
+
+async function connectsToDatabase() {
+  const connectionString = process.env.MONGODB_URI;
+  if (!connectionString) {
+    throw new Error("MongoDB connection string is not defined in the .env file.");
+  }
+
+  mongoose.connect(connectionString);
+  return mongoose.connection;
+}
 
 export default connectsToDatabase;

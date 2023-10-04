@@ -1,6 +1,6 @@
 import express from "express";
 import connectsToDatabase from "./config/dbConnect.js";
-import burger from "../models/Burger.js";
+import burger from "./models/Burger.js";
 
 const dbConnection = await connectsToDatabase();
 dbConnection.once("open", () => {
