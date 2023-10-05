@@ -1,6 +1,6 @@
 import express from "express";
 import connectsToDatabase from "./config/dbConnect.js";
-import burger from "./models/Burger.js";
+import routes from "./routes/index.js";
 
 const dbConnection = await connectsToDatabase();
 dbConnection.once("open", () => {
@@ -11,44 +11,35 @@ dbConnection.on("error", (e) => {
 });
 
 const app = express();
-app.use(express.json());
+routes(app);
 
-app.get("/", (req, res) => {
-    res.status(200).send("Hello!");
-});
+// app.get("/cheeseburgers/:id", (req, res) => {
+//     const index = searchburger(req.params.id);
+//     if (index !== -1) {
+//         res.status(200).json(cheeseburgers[index]);
+//     } else {
+//         res.status(404).send("Burger not found.");
+//     }
+// });
 
-app.get("/cheeseburgers/:id", (req, res) => {
-    const index = searchburger(req.params.id);
-    if (index !== -1) {
-        res.status(200).json(cheeseburgers[index]);
-    } else {
-        res.status(404).send("Burger not found.");
-    }
-});
+// app.patch("/cheeseburgers/:id", (req, res) => {
+//     const index = searchburger(req.params.id);
+//     if (index !== -1) {
+//         cheeseburgers[index].burger = req.body.burger;
+//         res.status(200).send("Burger updated!");
+//     } else {
+//         res.status(404).send("Burger not found.");
+//     }
+// });
 
-app.post("/cheeseburgers", (req, res) => {
-   cheeseburgers.push(req.body);
-   res.status(201).send("Burger received!");
-});
-
-app.patch("/cheeseburgers/:id", (req, res) => {
-    const index = searchburger(req.params.id);
-    if (index !== -1) {
-        cheeseburgers[index].burger = req.body.burger;
-        res.status(200).send("Burger updated!");
-    } else {
-        res.status(404).send("Burger not found.");
-    }
-});
-
-app.delete("/cheeseburgers/:id", (req, res) => {
-    const index = searchburger(req.params.id);
-    if (index !== -1) {
-        cheeseburgers.splice(index, 1);
-        res.status(200).send("Burger deleted!");
-    } else {
-        res.status(404).send("Burger not found.");
-    }
-});
+// app.delete("/cheeseburgers/:id", (req, res) => {
+//     const index = searchburger(req.params.id);
+//     if (index !== -1) {
+//         cheeseburgers.splice(index, 1);
+//         res.status(200).send("Burger deleted!");
+//     } else {
+//         res.status(404).send("Burger not found.");
+//     }
+// });
 
 export default app;
