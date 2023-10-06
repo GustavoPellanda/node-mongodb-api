@@ -11,11 +11,21 @@ class burgerController {
         }
     }
 
-    static async listsBurgerById(req, res){
+    static async findsBurgerById(req, res){
         try{
             const id = req.params.id;
             const cheeseburger = await burger.findById(id);
             res.status(200).json(cheeseburger);
+        } catch (error) {
+            res.status(500).json({ message: "Can't find burger.", error: error.message });
+        }
+    }
+
+    static async findsBurgerByName(req, res){
+        const name = req.query.burgername;
+        try {
+            const burgerByName = await burger.find({ name : name });
+            res.status(200).json(burgerByName);
         } catch (error) {
             res.status(500).json({ message: "Can't find burger.", error: error.message });
         }
